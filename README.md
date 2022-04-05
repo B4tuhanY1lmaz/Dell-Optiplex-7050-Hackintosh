@@ -1,16 +1,16 @@
-# Dell Optiplex 7050 Micro OpenCore 0.7.9
+# Dell Optiplex 7050 OpenCore 0.7.9
 
-![Optiplex Showoff](images/main.jpeg)
+![IMG_20220406_002431](https://user-images.githubusercontent.com/70820809/161852367-0f6818c7-2536-45b9-a80f-3c6090b8cf45.jpg)
 
-This repository contains my personal EFI configuration for the fantastic Dell Optiplex 7050 Micro.
 
-The current version installed is Monterey 12.2.1 (21D62) with OpenCore 0.7.9. Catalina was installed prior to Big Sur and it worked perfectly. I aim to have as clean of configuration as possible and so far everything has been working great.
+This repository contains my personal EFI configuration for the fantastic Dell Optiplex 7050.
 
-I use iMac18,1 as my SMBIOS. Macmini8,1 is also a good alternative, depends what you want it to show up as (have used both SMBIOS with no issues).
+The current version installed is Monterey 12.2.1 (21D62) with OpenCore 0.7.9.
 
-This was setup using the latest Dell BIOS at the time: [1.14.0](https://www.dell.com/support/home/en-tc/drivers/driversdetails?driverid=80chv&oscode=wt64a&productcode=optiplex-7050-desktop). I have successfully updated to [1.15.1](https://www.dell.com/support/home/en-uk/drivers/driversdetails?driverid=jkt52&oscode=wt64a&productcode=optiplex-7050-desktop) and then [1.15.2](https://www.dell.com/support/home/en-uk/drivers/driversdetails?driverid=2xjd2&oscode=wt64a&productcode=optiplex-7050-desktop) after the fact with no issues (via Windows or the built in BIOS Update Utility). If you are starting from scratch, I recommend updating to the latest BIOS before anything else.
+I use iMac18,1 as my SMBIOS.
 
-This has mostly been created with the help of the [Vanilla Hackintosh Guide by Dortania](https://dortania.github.io/OpenCore-Install-Guide/) and my own personal experience.
+This has mostly been created with the help of the [Vanilla Hackintosh Guide by Dortania](https://dortania.github.io/OpenCore-Install-Guide/) and [linkdev's OpenCore config(https://github.com/linkev/Dell-Optiplex-7050-Micro-Hackintosh/).
+At the beginning the that config has worked ok for installing the OS onto my HDD. But than I had o remove some kexts and do some changes at the config to get it working on my Optiplex 7050 without any problems.
 
 **MAKE SURE YOU ADD YOUR SYSTEM SERIAL NUMBER, SYSTEM UUID, MLB AND ROM IN PLATFORMINFO BEFORE BOOTING!**
 
@@ -28,21 +28,19 @@ Double/triple check everything to make sure, its a relatively light setup, but b
 
 ![About This Mac](images/aboutmac.png)
 
-- Intel i7-7700 CPU (Not the T version, the full desktop 65W version) (I don't think the CPU matters, they're all relatively the same)
-- 16GB RAM DDR4 Samsung 2666 MHz, but running at 2400 MHz, because Intel limits the speed
-- Intel HD Graphics 630 1536 MB
-- Sabrent Rocket 512GB in the NVMe slot
-- Samsung 860 QVO 1TB in the SATA slot
-- Dell DW1560 802.11ac WiFi + Bluetooth 4.0 LE
+- Intel i7-7700 CPU
+- 16GB RAM DDR4 Kingston 2400 MHz
+- AMD R7 450 (Shows up as HD 8830M but works without any problem)
+- WD Blue 1TB HDD 
+- TP-Link Archer T2u Nano Wifi
+- TP-Link UB400 Bluetooth
 - Intel I219-LM Gigabit Ethernet
 - Integrated speaker at the front, works perfectly with `alcid=11`
-- 1 Displayport 1.2
-- 1 HDMI 1.4
 - 1 addon Displayport port, works in Windows, doesn't work in macOS, came with the specific Optiplex I bought
 - 1 USB-C Port and 1 USB-A port at the front
 - 1 headphone jack and 1 microphone port at the front
 - 4 USB-A ports at the back
-- 130 watt Dell power supply
+- 240 watt Dell power supply
 
 ## What works and what doesn't
 
@@ -52,10 +50,9 @@ Double/triple check everything to make sure, its a relatively light setup, but b
 - [x] CPU power management
 - [x] GPU acceleration
 - [x] Video encoder/decoder hardware
-- [x] All USB ports at their max speed (manually mapped)
+- [x] All USB ports at their max speed
 - [x] Gigabit Ethernet
-- [x] Secure Boot
-- [x] WiFi and Bluetooth (I use DW1560, but the included Intel chips may work with [OpenIntelWireless](https://github.com/OpenIntelWireless/itlwm))
+- [x] Secure Boot (Works but I disabled on bios becouse I'm dual booting with Linux)
 - [x] Location Services
 - [x] Onboard Audio + Integrated Speaker at the front
 - [x] iMessage (set your Serial Number, UUID and MLB correctly)
@@ -63,7 +60,7 @@ Double/triple check everything to make sure, its a relatively light setup, but b
 - [x] App Store
 - [x] FaceTime
 - [x] Handoff
-- [x] Unlock with Apple Watch
+- [x] Unlock with Apple Watch (Not tested)
 - [x] AirDrop
 - [x] AirPlay
 - [x] Continuity
@@ -76,20 +73,16 @@ Double/triple check everything to make sure, its a relatively light setup, but b
 - [x] FileVault
 - [x] Dell Sensors (Fans/Temperature)
 - [x] Built in Displayport 1.2 and HDMI 1.4
-- [x] TRIM working on Sabrent NVMe
-- [x] TRIM enabled for SATA SSD with `sudo trimforce enable`
-- [x] Sidecar
+- [x] Sidecar (Not tested)
 - [x] Various sharing functions like Content Caching (very useful if you have lots of Apple devices)
 - [x] Time Machine
 - [x] Seamless software updates
 - [x] Monterey's AirPlay to Mac with [FeatureUnlock](https://github.com/acidanthera/FeatureUnlock)
+- [x] Sleep/Wake (Works with the AMD R7 450 GPU.) 
 
 ### Not Working
 
-- [ ] Sleep/Wake (I haven't tested, but I don't think it does).
-- [ ] Booting up without a monitor (or dummy Displayport dongle). This takes a much longer time to boot and the system is very laggy if there is no monitor plugged in. Seems like the iGPU is not activated, which makes everything lag. Disabling WiFi improves things, but that's not ideal as I am running this in headless mode (I connect via [VNC](https://www.realvnc.com/en/connect/download/vnc/)/[TeamViewer](https://www.teamviewer.com/en/download/mac-os/) from time to time).
-I had to buy a dummy Displayport which activates the iGPU and performs normally with it. Let me know if there is a way to do it without the dummy plug or maybe the actual Macmini can't run headless either.
-I recently started using [Parsec](https://parsec.app/) to remote in and its been working fantastic so far.
+- [ ] Sleep/Wake when using the integrated GPU. 
 
 ## Using the EFI
 
@@ -100,7 +93,6 @@ Only things you need to set manually is the **System Serial Number**, **System U
 - Update to the latest BIOS if you can.
 - Once on the latest BIOS, reset it to defaults (maybe even go as far as taking the CMOS battery out for a few minutes to hard reset).
 - Make sure CFG Lock is **Disabled**. Alternatively, enable AppleCpuPmCfgLock and AppleXcpmCfgLock in Kernel, however, its better for performance to disable CFG Lock with the UEFI Variables below. You can also use the CFG Lock tool included to find the bit and flip it between Enabled and Disabled. [More info here](https://dortania.github.io/OpenCore-Install-Guide/config.plist/kaby-lake.html#kernel).
-- Avoid Samsung PM drives as they did not let me go past the installer, it would always crash (may be fixed with NVMEFix.kext, I just bought a Sabrent SSD instead).
 - To add to the above point, just use a Sabrent SSD to make your life easy. I never got Samsung/Toshiba drives to work with the installer (they come as default with XPS/Optiplex computers).
 - For Big Sur, if you're using Dell Wireless 1560/1820A or something similar, make sure to modify your config [according to the "Please pay attention" section](https://github.com/acidanthera/AirportBrcmFixup#please-pay-attention), otherwise it will take forever to boot into the installer.
 
