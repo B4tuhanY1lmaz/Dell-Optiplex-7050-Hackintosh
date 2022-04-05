@@ -2,6 +2,9 @@
 
 ![IMG_20220406_002431](https://user-images.githubusercontent.com/70820809/161852367-0f6818c7-2536-45b9-a80f-3c6090b8cf45.jpg)
 
+![Screenshot 2022-04-06 at 00 39 16](https://user-images.githubusercontent.com/70820809/161854245-f5f4f433-1639-4ba7-abee-5cf033f900f0.png)
+
+
 
 This repository contains my personal EFI configuration for the fantastic Dell Optiplex 7050.
 
@@ -26,7 +29,6 @@ Double/triple check everything to make sure, its a relatively light setup, but b
 
 ## Hardware Configuration
 
-![About This Mac](images/aboutmac.png)
 
 - Intel i7-7700 CPU
 - 16GB RAM DDR4 Kingston 2400 MHz
