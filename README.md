@@ -6,24 +6,20 @@
 
 
 
-This repository contains my personal EFI configuration for the fantastic Dell Optiplex 7050.
+This repository contains my personal EFI configuration for the Dell Optiplex 7050.
 
-The current version installed is Monterey 12.2.1 (21D62) with OpenCore 0.7.9.
+The current version installed is Monterey 12.3.1 (21E258) with OpenCore 0.7.9.
 
 I use iMac18,1 as my SMBIOS.
 
-This has mostly been created with the help of the [Vanilla Hackintosh Guide by Dortania](https://dortania.github.io/OpenCore-Install-Guide/) and [linkdev's OpenCore config(https://github.com/linkev/Dell-Optiplex-7050-Micro-Hackintosh/).
+This has mostly been created with the help of the [Vanilla Hackintosh Guide by Dortania](https://dortania.github.io/OpenCore-Install-Guide/) and [linkdev's OpenCore config](https://github.com/linkev/Dell-Optiplex-7050-Micro-Hackintosh/).
 At the beginning the that config has worked ok for installing the OS onto my HDD. But than I had o remove some kexts and do some changes at the config to get it working on my Optiplex 7050 without any problems.
 
 **MAKE SURE YOU ADD YOUR SYSTEM SERIAL NUMBER, SYSTEM UUID, MLB AND ROM IN PLATFORMINFO BEFORE BOOTING!**
 
-You may also need to remove the AirportBrcmFixup.kext, BrcmBluetoothInjector.kext, BrcmFirmwareData.kext and BrcmPatchRAM3.kext if you are not using a Dell WiFi card or any WiFi at all.
-
 Don't forget to check the NVRAM values as well:
 - Remove `-v` after you're fully done installing macOS, to turn off Verbose.
-- You need to remove `brcmfx-country=#a` if you are not using a DW1560/DW1820A, but an [Intel WiFi chip instead](https://github.com/OpenIntelWireless/itlwm), or no WiFi at all (just Ethernet).
 - Modify `alcid=11` in case your audio chip is different, although I think all of the 7050's I've seen use the same Realtek ALC3234 controller.
-- Remove `igfxonln=1` if you have a monitor plugged in all the time (not a dummy dongle, not sure if this flag helps anything really).
 
 Double/triple check everything to make sure, its a relatively light setup, but better safe than sorry!
 
@@ -38,10 +34,9 @@ Double/triple check everything to make sure, its a relatively light setup, but b
 - TP-Link UB400 Bluetooth
 - Intel I219-LM Gigabit Ethernet
 - Integrated speaker at the front, works perfectly with `alcid=11`
-- 1 addon Displayport port, works in Windows, doesn't work in macOS, came with the specific Optiplex I bought
-- 1 USB-C Port and 1 USB-A port at the front
+- 1 USB-C Port and 3 USB-A port at the front
 - 1 headphone jack and 1 microphone port at the front
-- 4 USB-A ports at the back
+- 6 USB-A ports at the back
 - 240 watt Dell power supply
 
 ## What works and what doesn't
@@ -54,7 +49,7 @@ Double/triple check everything to make sure, its a relatively light setup, but b
 - [x] Video encoder/decoder hardware
 - [x] All USB ports at their max speed
 - [x] Gigabit Ethernet
-- [x] Secure Boot (Works but I disabled on bios becouse I'm dual booting with Linux)
+- [x] Secure Boot
 - [x] Location Services
 - [x] Onboard Audio + Integrated Speaker at the front
 - [x] iMessage (set your Serial Number, UUID and MLB correctly)
@@ -62,7 +57,6 @@ Double/triple check everything to make sure, its a relatively light setup, but b
 - [x] App Store
 - [x] FaceTime
 - [x] Handoff
-- [x] Unlock with Apple Watch (Not tested)
 - [x] AirDrop
 - [x] AirPlay
 - [x] Continuity
@@ -74,17 +68,17 @@ Double/triple check everything to make sure, its a relatively light setup, but b
 - [x] NVRAM
 - [x] FileVault
 - [x] Dell Sensors (Fans/Temperature)
-- [x] Built in Displayport 1.2 and HDMI 1.4
-- [x] Sidecar (Not tested)
 - [x] Various sharing functions like Content Caching (very useful if you have lots of Apple devices)
 - [x] Time Machine
 - [x] Seamless software updates
 - [x] Monterey's AirPlay to Mac with [FeatureUnlock](https://github.com/acidanthera/FeatureUnlock)
 - [x] Sleep/Wake (Works with the AMD R7 450 GPU.) 
 
-### Not Working
+### Not Working - Not tested
 
 - [ ] Sleep/Wake when using the integrated GPU. 
+- [ ] Sidecar
+- [ ] Unlock with Apple Watch.
 
 ## Using the EFI
 
@@ -92,12 +86,8 @@ Only things you need to set manually is the **System Serial Number**, **System U
 
 ## Preparation
 
-- Update to the latest BIOS if you can.
-- Once on the latest BIOS, reset it to defaults (maybe even go as far as taking the CMOS battery out for a few minutes to hard reset).
+- Make sure you have the latest BIOS version on your machine.
 - Make sure CFG Lock is **Disabled**. Alternatively, enable AppleCpuPmCfgLock and AppleXcpmCfgLock in Kernel, however, its better for performance to disable CFG Lock with the UEFI Variables below. You can also use the CFG Lock tool included to find the bit and flip it between Enabled and Disabled. [More info here](https://dortania.github.io/OpenCore-Install-Guide/config.plist/kaby-lake.html#kernel).
-- To add to the above point, just use a Sabrent SSD to make your life easy. I never got Samsung/Toshiba drives to work with the installer (they come as default with XPS/Optiplex computers).
-- For Big Sur, if you're using Dell Wireless 1560/1820A or something similar, make sure to modify your config [according to the "Please pay attention" section](https://github.com/acidanthera/AirportBrcmFixup#please-pay-attention), otherwise it will take forever to boot into the installer.
-
 ## BIOS Settings
 
 [The entire BIOS settings can be found here](BIOS.md)
